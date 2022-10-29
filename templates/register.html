@@ -1,0 +1,22 @@
+{% extends '_layout.html' %}
+
+{% block title %}Cryptid Catalog | Login{% endblock %}
+
+{% block body %}
+    <h3>Welcome Back!</h3>
+
+    <!--add login/register tabs here-->
+
+    <p>Don't have an account? Create one here to update and view sighting in your area.</p>
+    <div class="form">
+    <form>
+        <label for="email" class="label">Email Address</label><br>
+        <input type="email" clas="round" id="email" name="email" placeholder="Enter your Email Address"><br>
+        <label for="username" class="label">Username</label><br>
+        <input type="text" class="round" id="username" name="username" placeholder="Create your Username"><br>
+
+        <label for="password" class="label">Password</label><br>
+        <input type="password" class="round" id="password" name="password" placeholder="Create your Password"><br>
+    </form>
+</div>
+{% endblock %}

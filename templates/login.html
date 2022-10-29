@@ -3,5 +3,24 @@
 {% block title %}Cryptid Catalog | Login{% endblock %}
 
 {% block body %}
+    <h3>Welcome Back!</h3>
 
+    <!--add login/register tabs here-->
+
+    <p>Have you sighted one of these cryptic creatures? Sign in to view your profile, update sightings, 
+        and/or view updates</p>
+    <div class="form">
+    <form>
+        <label for="username" class="label">Username</label><br>
+        <input type="text" class="round" id="username" name="username" placeholder="Enter your Username"><br>
+
+        <label for="password" class="label">Password</label><br>
+        <input type="password" class="round" id="password" name="password" placeholder="Enter your Password"><br>
+
+        <input type="checkbox" id="remember_me" name="remember_me">
+        <label for="remember_me">Remember Me</label><br>
+        <div class="button"><input type="submit" value="Login" class="round"></div>
+    </form>
+    <p>Forgot Password</p>
+</div>
 {% endblock %}
