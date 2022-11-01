@@ -11,6 +11,7 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
+
     <nav class="navbar navbar-expand-md navbar-dark" style="background-color: #C9A478;">
         <div class="dropdown" style="margin-left: 20px;">
             <button class="btn btn-secondary dropdown-toggle"  type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -50,5 +51,9 @@
     </nav>
     {% block body %}
     {% endblock %}
+
+    <!-- Nav Bar: Logo, search bar, profile button, create post button, dropdown menu-->
+    {% block body %}{% endblock %}
+
 </body>
 </html>
