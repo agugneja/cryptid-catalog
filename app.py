@@ -1,7 +1,13 @@
 from flask import Flask, render_template, request, abort, redirect
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 app = Flask(__name__)
 order_dict = {}
+
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
