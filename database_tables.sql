@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS Comment (
 	post_id SERIAL,
 	text TEXT NOT NULL,
 	user_id SERIAL,
+    time_stamp TIMESTAMP NOT NULL,
 	likes INT NOT NULL,
 	dislikes INT NOT NULL,
 	PRIMARY KEY(comment_id),
