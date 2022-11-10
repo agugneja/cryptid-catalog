@@ -1,0 +1,56 @@
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
+
+#UPDATE TO APPROPRIATE COLUMNS AND TABLES
+class Person(db.Model):
+    user_id = db.Column(db.Integer, primary_key = True)
+    username = db.Column(db.String, nullable = False)
+    password = db.Column(db.String, nullable = False)
+
+    def __init__(self, username:str, password:str):
+        self.username = username
+        self.password = password
+
+    def __repr__(self) -> str:
+        return f'Person(user_id={self.user_id}, username={self.username}, password={self.password})'
+
+class Post(db.Model):
+    post_id = db.Column(db.Integer, primary_key = True)
+    title = db.Column(db.String, nullable = False)
+    creature = db.Column(db.String, nullable = False)
+    date_time = db.Column(db.Integer, nullable = False)
+    user_id = db.Column(db.Integer, nullable = False)
+    likes = db.Column(db.Integer, nullable = False)
+    dislikes = db.Column(db.Integer, nullable = False)
+
+    def __init__(self, title:str, creature:str, date_time:int, user_id:int, likes:int, dislikes:int):
+        self.title = title
+        self.creature = creature
+        self.date_time = date_time
+        self.user_id = user_id
+        self.likes = likes
+        self.dislikes = dislikes
+
+    def __repr__(self) -> str:
+        return f'Post(post_id={self.post_id}, title={self.title}, creature={self.creature}, date_time={self.date_time}, user_id={self.user_id}, likes={self.likes}, dislikes={self.dislikes})'
+
+class Comment(db.Model):
+    comment_id = db.Column(db.Integer, primary_key = True)
+    post_id = db.Column(db.Integer, nullable = False)
+    text = db.Column(db.String, nullable = False)
+    user_id = db.Column(db.Integer, nullable = False)
+    likes = db.Column(db.Integer, nullable = False)
+    dislikes = db.Column(db.Integer, nullable = False)
+    date_time = db.Column(db.Integer, nullable = False)
+
+    def __init__(self, post_id:int, text:str, user_id:str, likes:int, dislikes:int, date_time:int):
+        self.post_id = post_id
+        self.text = text
+        self.user_id = user_id
+        self.likes = likes
+        self.dislikes = dislikes
+        self.date_time = date_time
+
+    def __repr__(self) -> str:
+        return f'Comment(comment_id={self.comment_id}, text={self.text}, user_id={self.user_id}, likes={self.likes}, dislikes={self.dislikes}, data_time={self.date_time})'
