@@ -39,17 +39,17 @@ class Comment(db.Model):
     post_id = db.Column(db.Integer, nullable = False)
     text = db.Column(db.String, nullable = False)
     user_id = db.Column(db.Integer, nullable = False)
+    time_stamp = db.Column(db.Integer, nullable = False)
     likes = db.Column(db.Integer, nullable = False)
     dislikes = db.Column(db.Integer, nullable = False)
-    date_time = db.Column(db.Integer, nullable = False)
 
-    def __init__(self, post_id:int, text:str, user_id:str, likes:int, dislikes:int, date_time:int):
+    def __init__(self, post_id:int, text:str, user_id:str, time_stamp:int, likes:int, dislikes:int):
         self.post_id = post_id
         self.text = text
         self.user_id = user_id
+        self.time_stamp = time_stamp
         self.likes = likes
         self.dislikes = dislikes
-        self.date_time = date_time
 
     def __repr__(self) -> str:
-        return f'Comment(comment_id={self.comment_id}, text={self.text}, user_id={self.user_id}, likes={self.likes}, dislikes={self.dislikes}, data_time={self.date_time})'
+        return f'Comment(comment_id={self.comment_id}, text={self.text}, user_id={self.user_id}, time_stamp={self.time_stamp}, likes={self.likes}, dislikes={self.dislikes})'
