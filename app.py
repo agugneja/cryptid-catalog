@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, abort, redirect
 from dotenv import load_dotenv
+from src.models import db
+from src.repositories.comment_repository import comment_repository_singleton
 import os
 
 load_dotenv()
@@ -8,6 +10,8 @@ app = Flask(__name__)
 order_dict = {}
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
+
+db.init_app(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
