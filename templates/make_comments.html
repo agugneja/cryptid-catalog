@@ -6,11 +6,11 @@
 
 <!-- Make a comment form here -->
 <div class="col-lg-4 col-md-5 col-sm-4 offset-md-1 offset-sm-1 col-12 mt-4">
-    <form id="algin-form">
+    <form action="/comment" id="algin-form">
         <div class="form-group">
             <h4>Leave a comment</h4>
             <label for="message">Message</label>
-            <textarea name="msg" id=""msg cols="30" rows="5" class="form-control" style="background-color: black;"></textarea>
+            <textarea name="msg" id="msg" cols="30" rows="5" class="form-control" style="background-color: black; color: white;"></textarea>
         </div>
         <div class="form-group">
             <label for="name">Name</label>
@@ -24,7 +24,7 @@
             <p class="text-secondary">If you have an <a href="profile.html" class="alert-link">account</a> your address will be used to display your profile picture.</p>
         </div>
         <div class="form-group">
-            <button type="button" id="post" class="btn">Post Comment</button>
+            <button type="submit" id="post" class="btn">Post Comment</button>
         </div>
     </form>
 </div>
