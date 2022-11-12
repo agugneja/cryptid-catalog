@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, abort, redirect
 from dotenv import load_dotenv
+from src.models import db
+from src.repositories.comment_repository import comment_repository_singleton
 import os
 from src.models import db
 
@@ -12,6 +14,8 @@ order_dict = {}
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db.init_app(app)
+
 db.init_app(app)
 
 @app.route('/', methods=['GET', 'POST'])
