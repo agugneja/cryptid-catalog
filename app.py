@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import os
 from datetime import datetime
 from src.models import Post, db
+from src.repositories.forum_post import forum_post_singleton
 
 load_dotenv()
 
@@ -22,15 +23,17 @@ def profile():
 def encyclopedia():
     return render_template('encyclopedia.html')
 
-@app.get('/sightings')
+@app.post('/sightings')
 def sightings():
     return render_template('sightings.html')
 
 def create_post():
-    title = request.args.get('title')
-    creature = request.args.get('creature')
-    description = request.args.get('description')
+    title = request.form.get('title')
+    creature = request.form.get('creature')
+    description = request.form.get('description')
     user_id = 1
+    place = "x"
+    photo = "y"
     likes = 0
     dislikes = 0
 
@@ -39,11 +42,10 @@ def create_post():
     if not title or not creature or not description:
         abort(400)
 
-    post = Post(title, creature, datetime, description, user_id, likes, dislikes)
-    db.session.add(post)
-    db.session.commit()
+    created_post = forum_post_singleton.create_post(title, creature, datetime, user_id, place, 
+        description, photo, likes, dislikes)
 
-    return redirect('/sightings')
+    return redirect(f'/sightings/{created_post.post_id}')
 
 @app.get('/logout')
 def logout():
