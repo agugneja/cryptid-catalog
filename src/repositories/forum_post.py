@@ -1,9 +1,9 @@
 from src.models import Post, db
-from flask import request
 
 class Post:
-    def create_post(self, title, creature, datetime, place, description, photo, likes, dislikes):
-        post = Post(title, creature, datetime, place, description, photo, likes, dislikes)
+    #add photo later
+    def create_post(self, title, creature, dt, user_id, place, description, likes, dislikes):
+        post = Post(title, creature, dt, user_id, place, description, likes, dislikes)
         db.session.add(post)
         db.session.commit()
         return post
