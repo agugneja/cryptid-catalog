@@ -11,19 +11,20 @@ class CommentRepository:
         return post_id
 
     #read comment
-    def get_comments(self, post_id):
-        return Comment.query.filter( \
-            Comment.post_id.ilike(f"%{post_id}%")).all()
+    def get_comments(self, _post_id):
+        return Comment.query.filter_by(post_id=_post_id).all()
     
     #update comment
     def add_comment_like(self, comment_id):
         comment =  Comment.query.get(comment_id)
         comment.likes = comment.likes + 1
+        db.session.commit()
         return None
     
-    def add_comment_dislike(self, comment_id)
+    def add_comment_dislike(self, comment_id):
         comment =  Comment.query.get(comment_id)
         comment.dislikes = comment.dislikes + 1
+        db.session.commit()
         return None
 
     #delete comment
