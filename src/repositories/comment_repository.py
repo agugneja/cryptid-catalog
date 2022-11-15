@@ -12,7 +12,8 @@ class CommentRepository:
 
     #read comment
     def get_comments(self, _post_id):
-        return Comment.query.filter_by(post_id=_post_id).all()
+        return Comment.query.filter_by(post_id=_post_id).order_by(Comment.likes.desc()).all()
+
     
     #update comment
     def add_comment_like(self, comment_id):
