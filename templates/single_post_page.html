@@ -1,0 +1,65 @@
+{% extends '_layout.html' %}
+
+{% block title %}Catalog | {{ post.title }}{% endblock %}
+
+{% block body %}
+<div class="div">
+    <center><h1>{{ post.title }}</h1><h3>By {{ user.username }}</h3></center>
+</div>
+<div class="div">
+    <center><p>This is where the picture will go</p></center>
+
+</div>
+<div class="div">
+    <center><h3>{{ post.creature }}</h3></center>
+</div>
+<div class="div">
+    <center><p class="mx-5 px-5">{{ post.description }}</p></center>
+</div>
+<div class="div mt-3">
+    <center>
+        <div class="form">
+            <form action="/comment/{{ post.post_id }}" method="get">
+                <button type="submit" class="btn btn-primary">Leave a comment!</button>
+            </form>
+        </div>
+    </center>
+</div>
+
+
+<table class="table mt-5">
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Comment</th>
+        <th>Likes</th>
+        <th></th>
+        <th>Dislikes</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for comment in comments %}
+      <tr>
+        <td>{{ comment.user_id }}</td>
+        <td>{{ comment.text }}</td>
+        <td>{{ comment.likes }}</td>
+        <td>
+            <form action="/like/{{ post.post_id }}/{{ comment.comment_id }}" method="post">
+                <button type="submit" class="btn btn-success">&#8205; &#8205; &#8205; LIKE &#8205; &#8205; &#8205; </button>
+            </form> 
+        </td>
+        <td>{{ comment.dislikes }}</td>
+        <td>
+            <form action="/dislike/{{ post.post_id }}/{{ comment.comment_id }}" method="post">
+                <button type="submit" class="btn btn-danger ">DISLIKE</button>
+            </form> 
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+
+
+{% endblock %}

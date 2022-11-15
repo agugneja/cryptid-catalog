@@ -48,6 +48,9 @@ class Comment(db.Model):
     time_stamp = db.Column(db.Integer, nullable = False)
     likes = db.Column(db.Integer, nullable = False)
     dislikes = db.Column(db.Integer, nullable = False)
+    # user_id = db.Column(db.Integer, db.ForeignKey('Person.user_id'), nullable = False)
+    # comment_username = db.relationship('Person', backref='commenter', lazy = True)
+
 
     def __init__(self, post_id:int, text:str, user_id:str, time_stamp:int, likes:int, dislikes:int):
         self.post_id = post_id
