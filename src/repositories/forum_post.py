@@ -1,6 +1,6 @@
 from src.models import Post, db
 
-class Post:
+class PostRepository:
     #add photo later
     def create_post(self, title, creature, dt, user_id, place, description, likes, dislikes):
         post = Post(title, creature, dt, user_id, place, description, likes, dislikes)
@@ -8,4 +8,4 @@ class Post:
         db.session.commit()
         return post
 
-forum_post_singleton = Post()
+forum_post_singleton = PostRepository()

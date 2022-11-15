@@ -8,9 +8,12 @@ from src.repositories.forum_post import forum_post_singleton
 load_dotenv()
 
 app = Flask(__name__)
+
 order_dict = {}
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
+
+db.init_app(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -43,7 +46,7 @@ def create_post():
     if not title or not creature or not description:
         abort(400)
 
-    created_post = forum_post_singleton.create_post(title, creature, dt, user_id, place, 
+    created_post = forum_post_singleton.create_post(title, creature, dt, user_id, place, \
         description, likes, dislikes)
 
     return render_template('sightings.html')
