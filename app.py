@@ -5,9 +5,11 @@ from src.repositories.comment_repository import comment_repository_singleton
 from src.repositories.person_repository import person_repository_singleton
 from src.repositories.post_repository import post_repository_singleton
 import os
+
 from datetime import datetime
 from src.models import Post, db
 from src.repositories.forum_post import forum_post_singleton
+
 
 load_dotenv()
 
@@ -19,7 +21,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
-db.init_app(app)
 
 db.init_app(app)
 
@@ -27,9 +28,10 @@ db.init_app(app)
 def index():
     return render_template('home.html')
 
-@app.get('/profile')
-def profile():
-    return render_template('profile.html')
+@app.get('/profile/<int:user_id>')
+def profile(user_id):
+    displayed_user = person_repository_singleton.get_person_by_id(user_id)
+    return render_template('profile.html', user_id = displayed_user)
 
 @app.get('/encyclopedia')
 def encyclopedia():
@@ -38,6 +40,11 @@ def encyclopedia():
 @app.get('/sightings')
 def sightings():
     return render_template('sightings.html')
+
+
+@app.get('/register')
+def register():
+    return render_template('register.html')
 
 @app.post('/sightings')
 def create_post():
@@ -60,9 +67,25 @@ def create_post():
 
     return render_template('sightings.html')
 
+
 @app.get('/logout')
 def logout():
     return render_template('login.html')
+
+#create a new user
+@app.post('/create_account')
+def signup():
+    username = request.form.get('username', '')
+    password = request.form.get('password', '')
+    email = request.form.get('email', '')
+    #check both fields entered
+    if username == '' or password == '' or email == '':
+        abort(400)
+    #check if user exists
+
+    #create user
+    created_user = person_repository_singleton.create_user(username, password, email)
+    return redirect(f'/profile/{created_user.user_id}')
 
 @app.get('/posts/<int:post_id>')
 def get_single_post(post_id):

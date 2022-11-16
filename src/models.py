@@ -6,13 +6,15 @@ class Person(db.Model):
     user_id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String, nullable = False)
     password = db.Column(db.String, nullable = False)
+    email = db.Column(db.String, nullable = False)
 
-    def __init__(self, username:str, password:str):
+    def __init__(self, username:str, password:str, email:str):
         self.username = username
         self.password = password
+        self.email = email
 
     def __repr__(self) -> str:
-        return f'Person(user_id={self.user_id}, username={self.username}, password={self.password})'
+        return f'Person(user_id={self.user_id}, username={self.username}, password={self.password}, email={self.email})'
 
 class Post(db.Model):
     #add photo later
