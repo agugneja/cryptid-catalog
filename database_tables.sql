@@ -34,3 +34,6 @@ CREATE TABLE IF NOT EXISTS Comment (
 	FOREIGN KEY (post_id) REFERENCES Post(post_id),
 	FOREIGN KEY (user_id) REFERENCES Person(user_id)
 );
+
+INSERT INTO person (username, password)
+VALUES ('jdoe','abc123');
