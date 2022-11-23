@@ -56,14 +56,17 @@ def create_post():
     dt = datetime.now()
     # picture validation and functionality
     if 'picture' not in request.files:
+        print("not in files")
         abort(400)
 
     sighting_picture = request.files['picture']
 
     if sighting_picture.filename == '':
+        print("no file name")
         abort(400)
 
-    if sighting_picture.filename.rsplit('.', 1)[1].lower not in ['jpg', 'jpeg', 'gif', 'png']:
+    if sighting_picture.filename.rsplit('.', 1)[1].lower() not in ['jpg', 'jpeg', 'gif', 'png']:
+        print(sighting_picture.filename.rsplit('.', 1)[1].lower())
         abort(400)
 
     safe_filename = secure_filename(sighting_picture.filename)
@@ -72,10 +75,13 @@ def create_post():
 
     #form validation
     if not title or not creature or not description:
+        print("incorrect form")
         abort(400)
 
-    #created_post = forum_post_singleton.create_post(title, creature, dt, user_id, place, \
-        #description, likes, dislikes)
+    created_post = forum_post_singleton.create_post(title, creature, dt, user_id, place, \
+        description, safe_filename, likes, dislikes)
+
+    
 
     return render_template('sightings.html')
 
