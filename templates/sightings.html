@@ -5,7 +5,7 @@
 {% block body %}
 
 <h1>Sightings</h1>
-<form action="/sightings" method="post">
+<form action="/sightings" method="post" enctype="multipart/form-data">
     <label for="title">Post Title:</label><br>
     <input type="text" name="title" id="title" placeholder="Title"><br>
 
@@ -16,12 +16,12 @@
     <label for="location">Location:</label><br>
     <input type="text" name="location" id="location" placeholder="City, State"><br>
 
+    <label for="picture">Picture:</label><br>
+    <input type="file" name="picture" id="picture" required><br>
+
     <label for="description">Sighting Info:</label><br>
     <textarea rows="5" cols="40" name="description" id="description" placeholder="Tell us about your sighting!"></textarea><br>
     <button type="submit" class="btn btn-primary">Post</button>
-
-    <!--do pictures need a separate section in the form?
-    add photos later-->
 </form>
 
 {% endblock %}
