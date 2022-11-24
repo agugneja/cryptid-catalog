@@ -17,7 +17,6 @@ class Person(db.Model):
         return f'Person(user_id={self.user_id}, username={self.username}, password={self.password}, email={self.email})'
 
 class Post(db.Model):
-    #add photo later
     post_id = db.Column(db.Integer, primary_key = True)
     title = db.Column(db.String, nullable = False)
     creature = db.Column(db.String, nullable = False)
@@ -26,16 +25,18 @@ class Post(db.Model):
     user = db.relationship('Person', backref='users', primaryjoin='Post.user_id == Person.user_id')
     place = db.Column(db.String, nullable = False)
     description = db.Column(db.Text, nullable = False)
+    photo_path = db.Column(db.String, nullable=False)
     likes = db.Column(db.Integer, nullable = False)
     dislikes = db.Column(db.Integer, nullable = False)
 
-    def __init__(self, title:str, creature:str, date_time:int, user_id:int, place: str, description:str, likes:int, dislikes:int):
+    def __init__(self, title:str, creature:str, date_time:int, user_id:int, place: str, description:str, photo_path:str, likes:int, dislikes:int):
         self.title = title
         self.creature = creature
         self.date_time = date_time
         self.user_id = user_id
         self.place = place
         self.description = description
+        self.photo_path = photo_path
         self.likes = likes
         self.dislikes = dislikes
 

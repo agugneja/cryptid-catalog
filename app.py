@@ -5,7 +5,7 @@ from src.repositories.comment_repository import comment_repository_singleton
 from src.repositories.person_repository import person_repository_singleton
 from src.repositories.post_repository import post_repository_singleton
 import os
-
+from werkzeug.utils import secure_filename
 from datetime import datetime
 from src.models import Post, db
 from src.repositories.forum_post import forum_post_singleton
@@ -19,9 +19,6 @@ order_dict = {}
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db.init_app(app)
-
-
 db.init_app(app)
 
 @app.route('/', methods=['GET', 'POST'])
@@ -48,7 +45,6 @@ def register():
 
 @app.post('/sightings')
 def create_post():
-    #add photo later
     title = request.form.get('title')
     creature = request.form.get('creature')
     description = request.form.get('description')
@@ -58,12 +54,34 @@ def create_post():
     dislikes = 0
 
     dt = datetime.now()
+    # picture validation and functionality
+    if 'picture' not in request.files:
+        print("not in files")
+        abort(400)
 
+    sighting_picture = request.files['picture']
+
+    if sighting_picture.filename == '':
+        print("no file name")
+        abort(400)
+
+    if sighting_picture.filename.rsplit('.', 1)[1].lower() not in ['jpg', 'jpeg', 'gif', 'png']:
+        print(sighting_picture.filename.rsplit('.', 1)[1].lower())
+        abort(400)
+
+    safe_filename = secure_filename(sighting_picture.filename)
+
+    sighting_picture.save(os.path.join('static', 'forum_post_pictures', safe_filename))
+
+    #form validation
     if not title or not creature or not description:
+        print("incorrect form")
         abort(400)
 
     created_post = forum_post_singleton.create_post(title, creature, dt, user_id, place, \
-        description, likes, dislikes)
+        description, safe_filename, likes, dislikes)
+
+    
 
     return render_template('sightings.html')
 

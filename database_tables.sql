@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS Post (
 	user_id INT NOT NULL,
     place VARCHAR(255) NOT NULL,
 	description TEXT, 
-	photo BYTEA,
+	photo_path VARCHAR(255) NOT NULL,
     likes INT NOT NULL,
 	dislikes INT NOT NULL,
 	PRIMARY KEY (post_id),
