@@ -35,5 +35,13 @@ CREATE TABLE IF NOT EXISTS Comment (
 	FOREIGN KEY (user_id) REFERENCES Person(user_id)
 );
 
+CREATE TABLE IF NOT EXISTS CommentLike (
+	comment_id SERIAL,
+	user_id SERIAL,
+	PRIMARY KEY(comment_id),
+	FOREIGN KEY (comment_id) REFERENCES Comment(comment_id),
+	FOREIGN KEY (user_id) REFERENCES Person(user_id)
+);
+
 INSERT INTO person (username, password)
 VALUES ('jdoe','abc123');

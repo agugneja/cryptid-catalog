@@ -6,26 +6,39 @@
 <div class="div">
     <center><h1>{{ post.title }}</h1><h3>By {{ user.username }}</h3></center>
 </div>
+{% if session_user_id == user.user_id %}
+<center class="p-3">
+    <form action="/edit_post/{{ post.post_id }}" method="post">
+        <button type="submit" class="btn btn-secondary" style="display: inline;">EDIT POST</button>
+    </form>
+    <form action="/delete_post/{{ post.post_id }}" method="post">
+        <button type="submit" class="btn btn-secondary mt-1">DELETE POST</button>
+    </form> 
+</center>
+
+{% endif %}
+
 <div class="div">
-    <center><p>This is where the picture will go</p></center>
+    <center><img src="\static\forum_post_pictures\{{post.photo_path}}" style="width: 35em; height: auto;"></center>
 
 </div>
 <div class="div">
-    <center><h3>{{ post.creature }}</h3></center>
+    <center><h3>Creature: {{ post.creature }}</h3></center>
 </div>
 <div class="div">
     <center><p class="mx-5 px-5">{{ post.description }}</p></center>
 </div>
-<div class="div mt-3">
-    <center>
-        <div class="form">
-            <form action="/comment/{{ post.post_id }}" method="get">
-                <button type="submit" class="btn btn-primary">Leave a comment!</button>
-            </form>
-        </div>
-    </center>
-</div>
 
+
+<form action="/comment/{{post.post_id}}" id="algin-form" method="post">
+    <div class="form-group m-5">
+        <label for="message">Leave a comment</label>
+        <input type="text" class="form-control mt-3" id="message" name="message" placeholder="Enter your comment"><br>
+    </div>
+    <div class="mt-5 ml-5">
+        <button type="submit" class="btn btn-success">COMMENT</button>
+    </div>
+</form>
 
 <table class="table mt-5">
     <thead>
@@ -36,6 +49,9 @@
         <th></th>
         <th>Dislikes</th>
         <th></th>
+        <th></th>
+        <th></th>
+
       </tr>
     </thead>
     <tbody>
@@ -54,6 +70,21 @@
             <form action="/dislike/{{ post.post_id }}/{{ comment.comment_id }}" method="post">
                 <button type="submit" class="btn btn-danger ">DISLIKE</button>
             </form> 
+        </td>
+        <td>
+            {% if session_user_id == comment.user_id %}
+                <form action="/edit_comment/{{ post.post_id }}/{{ comment.comment_id }}" method="post">
+                    <button type="submit" class="btn btn-secondary ">EDIT</button>
+                </form> 
+            {% endif %}
+        </td>
+        <td>
+            {% if session_user_id == comment.user_id %}
+                <form action="/delete_comment/{{ post.post_id }}/{{ comment.comment_id }}" method="post">
+                    <button type="submit" class="btn btn-secondary ">DELETE</button>
+                </form>
+            {% endif %}
+
         </td>
       </tr>
       {% endfor %}
