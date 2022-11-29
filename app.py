@@ -8,7 +8,6 @@ import os
 from werkzeug.utils import secure_filename
 from datetime import datetime
 from src.models import Post, db
-from src.repositories.forum_post import forum_post_singleton
 
 
 load_dotenv()
@@ -36,14 +35,15 @@ def encyclopedia():
 
 @app.get('/sightings')
 def sightings():
-    return render_template('sightings.html')
+    post_pool = post_repository_singleton.get_all_posts()
+    return render_template('sightings.html', posts=post_pool)
 
 
 @app.get('/register')
 def register():
     return render_template('register.html')
 
-@app.post('/sightings')
+@app.post('/create_post')
 def create_post():
     title = request.form.get('title')
     creature = request.form.get('creature')
@@ -78,12 +78,12 @@ def create_post():
         print("incorrect form")
         abort(400)
 
-    created_post = forum_post_singleton.create_post(title, creature, dt, user_id, place, \
+    created_post = post_repository_singleton.create_post(title, creature, dt, user_id, place, \
         description, safe_filename, likes, dislikes)
 
-    
+    post_pool = post_repository_singleton.get_all_posts()
 
-    return render_template('sightings.html')
+    return render_template('sightings.html', posts=post_pool)
 
 
 @app.get('/logout')
@@ -126,3 +126,26 @@ def like_comment(post_id, comment_id):
 def dislike_comment(post_id, comment_id):
     comment_repository_singleton.add_comment_dislike(comment_id)
     return redirect('/posts/' + str(post_id))
+
+#function to get from encyclopedia entry to sightings post
+@app.post('/entry_to_post')
+def entry_to_post(creature):
+    post_pool = post_repository_singleton.get_posts_by_creature(creature)
+    return redirect('sightings.html', posts=post_pool)
+
+#function to get from sightings post to encyclopedia entry
+@app.post('/post_to_entry')
+def post_to_entry():
+    entry_page= request.form.get('creature')
+    return redirect('entries/' + str(entry_page) + '.html')
+
+#sends user from full sightings page to post creation page
+@app.post('/posts_to_creator')
+def post_creator():
+    return redirect('create_post.html')
+
+#sends user from full sightings page to single post page
+@app.post('/posts_to_single_post')
+def post_to_post():
+    post_id = request.form.get('post_id')
+    return redirect('/posts/'+ str(post_id)))
