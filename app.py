@@ -40,7 +40,8 @@ def encyclopedia():
 
 @app.get('/sightings')
 def sightings():
-    return render_template('sightings.html')
+    post_pool = post_repository_singleton.get_all_posts()
+    return render_template('sightings.html', posts=post_pool)
 
 
 @app.get('/register')
@@ -99,7 +100,7 @@ def signup():
     return redirect(f'/profile/{created_user.user_id}')
 
 
-@app.post('/sightings')
+@app.post('/create_post')
 def create_post():
     if 'user' not in session:
         return redirect('/login')
@@ -139,10 +140,7 @@ def create_post():
     created_post = post_repository_singleton.create_post(title, creature, dt, user_id, place, \
         description, safe_filename, likes, dislikes)
 
-    
     return redirect('/posts/' + str(created_post.post_id))
-    #return render_template('sightings.html')
-
 
 
 @app.get('/posts/<int:post_id>')
@@ -184,6 +182,29 @@ def like_comment(post_id, comment_id):
 def dislike_comment(post_id, comment_id):
     comment_repository_singleton.add_comment_dislike(comment_id)
     return redirect('/posts/' + str(post_id))
+
+#function to get from encyclopedia entry to sightings post
+@app.post('/entry_to_post')
+def entry_to_post(creature):
+    post_pool = post_repository_singleton.get_posts_by_creature(creature)
+    return redirect('sightings.html', posts=post_pool)
+
+#function to get from sightings post to encyclopedia entry
+@app.post('/post_to_entry')
+def post_to_entry():
+    entry_page= request.form.get('creature')
+    return redirect('entries/' + str(entry_page) + '.html')
+
+#sends user from full sightings page to post creation page
+@app.post('/posts_to_creator')
+def post_creator():
+    return redirect('create_post.html')
+
+#sends user from full sightings page to single post page
+@app.post('/posts_to_single_post')
+def post_to_post():
+    post_id = request.form.get('post_id')
+    return redirect('/posts/'+ str(post_id)))
 
 @app.post('/edit_post/<int:post_id>')
 def edit_post(post_id):
@@ -240,4 +261,4 @@ def submit_edit_comment(post_id, comment_id):
 def delete_comment(post_id, comment_id):
     comment_repository_singleton.delete_comment(comment_id)
     return redirect('/posts/' + str(post_id))
- 
+
