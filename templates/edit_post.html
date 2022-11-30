@@ -1,0 +1,41 @@
+{% extends '_layout.html' %}
+
+{% block title %}Catalog | {{ post.title }}{% endblock %}
+
+{% block body %}
+
+<form action="/submit_edit/{{post.post_id}}" method="post">
+
+    <div class="div p-3">
+        <center>
+                <label for="edit_title" class="label"><h1>Title</h1></label><br>
+                <input type="edit_title" class="form-control"  name="edit_title" style="height: 30px; width: 150px;" value="{{ post.title }}" ><br>
+        </center>
+    </div>
+
+    <div class="div">
+        <center><img src="\static\forum_post_pictures\{{post.photo_path}}" style="width: 35em; height: auto;"></center>
+
+    </div>
+        <div class="div p-3">
+            <center>
+                    <label for="edit_creature" class="label">Creature</label><br>
+                    <input type="edit_creature" class="form-control" style="width: 150px;" name="edit_creature" value="{{ post.creature }}" ><br>
+            </center>
+        </div>
+        
+        <div class="div p-3 px-5">
+            <center>
+                
+                    <label for="edit_description" class="label">Description</label><br>
+                    <input type="edit_description" class="form-control" id="password" name="edit_description" value="{{ post.description }}" ><br>
+                
+            </center>
+        </div>
+
+        <center><button type="submit" class="btn btn-success ">Submit Changes</button></center>
+</form>
+
+
+{% endblock %}
+ 

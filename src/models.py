@@ -51,8 +51,10 @@ class Comment(db.Model):
     time_stamp = db.Column(db.Integer, nullable = False)
     likes = db.Column(db.Integer, nullable = False)
     dislikes = db.Column(db.Integer, nullable = False)
+
     # user_id = db.Column(db.Integer, db.ForeignKey('Person.user_id'), nullable = False)
     # comment_username = db.relationship('Person', backref='commenter', lazy = True)
+
 
 
     def __init__(self, post_id:int, text:str, user_id:str, time_stamp:int, likes:int, dislikes:int):
@@ -65,3 +67,15 @@ class Comment(db.Model):
 
     def __repr__(self) -> str:
         return f'Comment(comment_id={self.comment_id}, text={self.text}, user_id={self.user_id}, time_stamp={self.time_stamp}, likes={self.likes}, dislikes={self.dislikes})'
+
+class CommentLikes(db.Model):
+    comment_id = db.Column(db.Integer, db.ForeignKey('Comment.comment_id'), primary_key=True,  nullable= False)
+    user_id = db.Column(db.Integer, db.ForeignKey('person.user_id'), nullable = False)
+   
+
+    def __init__(self, comment_id:int, user_id:str):
+        self.comment_id = comment_id
+        self.user_id = user_id
+
+    def __repr__(self) -> str:
+        return f'CommentLikes(comment_id={self.comment_id}, user_id={self.user_id})'

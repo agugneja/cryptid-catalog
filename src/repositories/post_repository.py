@@ -1,4 +1,6 @@
 from src.models import Post, db
+from src.repositories.comment_repository import comment_repository_singleton
+
 
 class PostRepository:
     
@@ -18,6 +20,28 @@ class PostRepository:
         db.session.add(post)
         db.session.commit()
         return post
+
+    def create_post(self, title, creature, dt, user_id, place, description, picture, likes, dislikes):
+        post = Post(title, creature, dt, user_id, place, description, picture, likes, dislikes)
+        db.session.add(post)
+        db.session.commit()
+        return post
+    
+    def edit_post(self, _post_id, title, creature, description):
+        post = Post.query.filter_by(post_id=_post_id).first()
+        post.title = title
+        post.creature = creature
+        post.description = description
+        db.session.commit()
+
+    def delete_post(self, post_id):
+        post_to_delete = Post.query.get(post_id)
+        comments_to_delete = comment_repository_singleton.get_comments(post_id)
+        for comment in comments_to_delete:
+            db.session.delete(comment)
+        db.session.delete(post_to_delete)
+        db.session.commit()
+        return None
 
 # Singleton to be used in other modules
 post_repository_singleton = PostRepository()

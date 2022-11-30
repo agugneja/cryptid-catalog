@@ -3,6 +3,7 @@
 {% block title %}Catalog | {{ post.title }}{% endblock %}
 
 {% block body %}
+/* stuff for the single post */
 <div class="post">
     <h1>{{ post.title }}</h1><h3>By {{ user.username }}</h3>
     <p>This is where the picture will go</p>
@@ -18,28 +19,57 @@
     <form class="mt-3 form" action="/comment/{{ post.post_id }}" method="get">
         <button type="submit" class="btn btn-primary">Leave a comment!</button>
     </form>
+  {% if session_user_id == user.user_id %}
+  <form class="centered" action="/edit_post/{{ post.post_id }}" method="post">
+      <button type="submit" class="btn btn-secondary" style="display: inline;">EDIT POST</button>
+  </form>
+  <form class="centered" action="/delete_post/{{ post.post_id }}" method="post">
+      <button type="submit" class="btn btn-secondary mt-1">DELETE POST</button>
+  </form> 
+  {% endif %}
+  <div class="centered">
+      <img src="\static\forum_post_pictures\{{post.photo_path}}" style="width: 35em; height: auto;">
 </div>
+/* end of stuff for single post */
 
+
+/* showing comment stuff */
 {% for comment in comments %}
 <div class="comment mt-4 text-justify float-left">
     <h4>{{ comment.user_id }}</h4>
     <p>{{ comment.text }}</p>
     <table>
         <tr>
+            /* the number of likes and like button */
             <td>
                 <form action="/like/{{ post.post_id }}/{{ comment.comment_id }}" method="post">
                     <button type="submit" class="btn btn-success">&#8205; &#8205; &#8205; LIKE &#8205; &#8205; &#8205; </button>
                 </form> 
             </td>
             <td>{{ comment.likes }}</td>
+            
+            /* the number of dislikes and dislike button */
             <td>
                 <form action="/dislike/{{ post.post_id }}/{{ comment.comment_id }}" method="post">
                     <button type="submit" class="btn btn-danger ">DISLIKE</button>
                 </form> 
             </td>
             <td>{{ comment.dislikes }}</td>
-
         </tr>
+        {% if session_user_id == comment.user_id %}
+          <tr>
+            <td>
+                <form action="/edit_comment/{{ post.post_id }}/{{ comment.comment_id }}" method="post">
+                    <button type="submit" class="btn btn-secondary ">EDIT</button>
+                </form>
+            </td>
+            <td>
+                <form action="/delete_comment/{{ post.post_id }}/{{ comment.comment_id }}" method="post">
+                    <button type="submit" class="btn btn-secondary ">DELETE</button>
+                </form>
+            </td>
+          </tr>
+        {% endif %}
     </table>
 </div>
 {% endfor %}
