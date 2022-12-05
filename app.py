@@ -111,7 +111,6 @@ def create_post():
     likes = 0
     dislikes = 0
 
-    dt = datetime.now()
     # picture validation and functionality
     if 'picture' not in request.files:
         print("not in files")
@@ -136,7 +135,7 @@ def create_post():
         print("incorrect form")
         abort(400)
 
-    created_post = post_repository_singleton.create_post(title, creature, dt, user_id, place, \
+    created_post = post_repository_singleton.create_post(title, creature, user_id, place, \
         description, safe_filename, likes, dislikes)
 
     

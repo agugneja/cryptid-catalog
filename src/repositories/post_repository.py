@@ -8,8 +8,8 @@ class PostRepository:
         post_by_id = Post.query.filter_by(post_id=_post_id).first()
         return post_by_id
 
-    def create_post(self, title, creature, dt, user_id, place, description, picture, likes, dislikes):
-        post = Post(title, creature, dt, user_id, place, description, picture, likes, dislikes)
+    def create_post(self, title, creature, user_id, place, description, picture, likes, dislikes):
+        post = Post(title, creature, user_id, place, description, picture, likes, dislikes)
         db.session.add(post)
         db.session.commit()
         return post

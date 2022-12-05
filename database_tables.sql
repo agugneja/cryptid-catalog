@@ -10,7 +10,6 @@ CREATE TABLE IF NOT EXISTS Post (
 	post_id SERIAL,
 	title VARCHAR(255) NOT NULL,
 	creature VARCHAR(255) NOT NULL,
-	date_time TIMESTAMP NOT NULL,
 	user_id INT NOT NULL,
     place VARCHAR(255) NOT NULL,
 	description TEXT, 
@@ -43,5 +42,5 @@ CREATE TABLE IF NOT EXISTS CommentLike (
 	FOREIGN KEY (user_id) REFERENCES Person(user_id)
 );
 
-INSERT INTO person (username, password)
-VALUES ('jdoe','abc123');
+INSERT INTO person (username, password, email)
+VALUES ('jdoe','abc123', 'jdoe@gmail.com');
