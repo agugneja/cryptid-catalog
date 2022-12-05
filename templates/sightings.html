@@ -3,7 +3,46 @@
 {% block title %}Cryptid Catalog | Sightings{% endblock %}
 
 {% block body %}
-<!-- form is for going from all posts to the post creation page-->
+<!-- accordian to hide filter when not needed -->
+<!-- 
+    the outter div is to contain the filter accordian, so if you need
+    to change size, such as width. CSS changes might be needed, and
+    are labeled at the start and end in the _layout.html file.
+-->
+<div>
+    <input class="accordion_input" type="checkbox" id="title1" />
+    <label class="accordion_title" for="title1">Create a Filter</label>
+
+    <div class="accordion_content">
+        <!-- form to filter posts-->
+        <form class="mt-3 form" action="/filter_posts" id="post_filter">
+            <!--dropdown menu to select by creature, with all creatures as default-->
+            <label for="creature">Filter posts via creature, or </label><br>
+            <select name="creature" id="creature" form="post_filter">
+                <option value="all">All Creatures</option>
+                <option value="bigfoot">Bigfoot</option>
+                <option value="abominableSnowman">Abominable Snowman</option>
+                <option value="chupacabra">Chupacabra</option>>
+                <option value="cookieMonster">Cookie Monster</option>
+                <option value="lizardMan">Lizard Man</option>
+                <option value="lochNess">Loch Ness</option>
+                <option value="mamlambo">Mamlambo</option>
+                <option value="megalodon">Megalodon</option>
+                <option value="mothman">Mothman</option>
+                <option value="ningen">Ningen</option>
+            </select><br>
+
+            <!--input for username filter-->
+            <label for="username">Filter by username</label><br>
+            <input type="text" id="username" name="username" placeholder="username">
+
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
+    </div>
+</div>
+<!-- end of the filter accordain-->
+
+<!-- form to go to post creation page-->
 <form class="mt-3 form" action="/posts_to_creator">
     <button type="submit" class="btn btn-primary">Create a post of your own!</button>
 </form>
