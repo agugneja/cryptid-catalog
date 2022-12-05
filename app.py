@@ -195,6 +195,33 @@ def post_to_entry():
     entry_page= request.form.get('creature')
     return redirect('entries/' + str(entry_page) + '.html')
 
+#filters all posts by creature, username, or both, or neither
+@app.post('/filter_posts')
+def filter_posts(creature, username):
+    #tests if a user with said username doesn't exist
+    if person_repository_singleton.get_person_by_username(username) is None:
+        #creature has default 'all' (neither creature or user)
+        if creature == 'all':
+            post_pool = post_repository_singleton.get_all_posts()
+        #creature is not default, so filter by creature (creature only)
+        else:
+            post_pool = post_repository_singleton.get_posts_by_creature(creature)
+    
+    #the other option, the user does exist 
+    else:
+        #gets the user_id since the user exits
+        user_id = person_repository_singleton.get_user_id_by_username(username)
+        
+        #creature is default 'all' (user only)
+        if creature == 'all':
+            post_pool = post_repository_singleton.get_posts_by_user_id(user_id)
+        #creature isn't default, so use both (user and creature))
+        else:
+            post_pool = post_repository_singleton.get_posts_by_user_and_creature(user_id, creature)
+    
+    return redirect('sightings.html', posts=post_pool)
+
+
 #sends user from full sightings page to post creation page
 @app.post('/posts_to_creator')
 def post_creator():
@@ -204,7 +231,7 @@ def post_creator():
 @app.post('/posts_to_single_post')
 def post_to_post():
     post_id = request.form.get('post_id')
-    return redirect('/posts/'+ str(post_id)))
+    return redirect('/posts/'+ str(post_id))
 
 @app.post('/edit_post/<int:post_id>')
 def edit_post(post_id):
