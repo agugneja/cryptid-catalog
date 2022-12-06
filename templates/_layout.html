@@ -46,23 +46,32 @@
     .button {
         text-align: right;
     }
-    
-/* 
-This is the CSS for the make_comments page. Adjust as needed.
-
-    .darker{
-        border: 1px solid #ecb21f;
-        background-color: black;
-        float: right;
+    .post {
+        border: 1px solid #A4B6BB;
+        background-color: #A4B6BB;
+        float: left;
         border-radius: 5px;
         padding-left: 40px;
         padding-right: 30px;
         padding-top: 10px;
     }
-
+    .creature_btn {
+        font-size: 28px;
+    }
+    .creature_btn {
+        font-size: 36px;
+    }
+    .centered {
+      text-align: centered;
+    }
+    
+    /* 
+        Start of comments css. Adjust as needed.
+    */
+    /*comment showing part*/
     .comment{
-        border: 1px solid rgba(16, 46, 46, 1);
-        background-color: rgba(16, 46, 46, 0.973);
+        border: 1px solid #A4B6BB;
+        background-color: #A4B6BB;
         float: left;
         border-radius: 5px;
         padding-left: 40px;
@@ -74,36 +83,65 @@ This is the CSS for the make_comments page. Adjust as needed.
         display: inline;
     }
 
-    .comment p,.comment span,.darker p,.darker span{
-        color: rgb(184, 183, 183);
-    }
-
     h1,h4{
-        color: white;
+        color: black;
         font-weight: bold;
     }
-    label{
-        color: rgb(212, 208, 208);
-    }
 
-    #align-form{
-        margin-top: 20px;
-    }
+    /*comment form part*/
     .form-group p a{
-        color: white;
+        color: black;
     }
     .form-group input,.form-group textarea{
-        background-color: black;
-        border: 1px solid rgba(16, 46, 46, 1);
+        background-color: #A4B6BB;
+        border: 1px solid rgba(164, 182, 187, 1);
         border-radius: 12px;
     }
+    /*
+        End of comment css
+    */
 
-    form{
-        border: 1px solid rgba(16, 46, 46, 1);
-        background-color: rgba(16, 46, 46, 0.973);
-        border-radius: 5px;
-        padding: 20px;
+
+    /*
+        Start of CSS for an accordion element, used with sightings post filter
+    */
+    .accodion_input {
+    display: none;
     }
+
+    .accordion_title {
+        display: block;    
+        padding: 8px 22px;
+        margin: 0 0 1px 0;
+        cursor: pointer;
+        background: #6AAB95;
+        border-radius: 3px;
+        color: #FFF;
+        transition: ease .5s;
+    }
+
+    .accodion_title:hover {
+        background: #4E8774;
+    }
+
+    .accordion_content {
+        background: #E2E5F6;
+        padding: 10px 25px;
+        border: 1px solid #A7A7A7;
+        margin: 0 0 1px 0;
+        border-radius: 3px;
+    }
+
+    .accordion_input + .accordion_title + .accordion_content {
+        display: none;
+    }
+
+    .accordion_input:checked + .accordion_title + .accordion_content {
+        display: block;
+    }
+
+    /*
+        end of accordion css
     */
 </style>
 <body>
