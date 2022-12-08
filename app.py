@@ -77,9 +77,9 @@ def login():
 #create a new user
 @app.post('/create_account')
 def signup():
-    username = request.form.get('username', '')
-    password = request.form.get('password', '')
-    email = request.form.get('email', '')
+    username = request.form.get('username')
+    password = request.form.get('password')
+    email = request.form.get('email')
     #check both fields entered
     if username == '' or password == '' or email == '':
         abort(400)
@@ -94,10 +94,10 @@ def signup():
     created_user = person_repository_singleton.create_user(username, hashed_password, email)
 
     session['user'] = {
-        'user_id': existing_user.user_id
+        'user_id': created_user.user_id
     }
 
-    return redirect(f'/profile/{created_user.user_id}')
+    return redirect(f'/sightings')
 
 
 @app.post('/create_post')
@@ -196,15 +196,15 @@ def post_to_entry():
     return redirect('entries/' + str(entry_page) + '.html')
 
 #sends user from full sightings page to post creation page
-@app.post('/posts_to_creator')
+@app.get('/posts_to_creator')
 def post_creator():
-    return redirect('create_post.html')
+    return render_template('create_post.html')
 
 #sends user from full sightings page to single post page
-@app.post('/posts_to_single_post')
+@app.get('/posts_to_single_post')
 def post_to_post():
     post_id = request.form.get('post_id')
-    return redirect('/posts/'+ str(post_id)))
+    return redirect('/posts/'+ str(post_id))
 
 @app.post('/edit_post/<int:post_id>')
 def edit_post(post_id):
@@ -226,9 +226,6 @@ def submit_edit(post_id):
 def delete_post(post_id):
     post_repository_singleton.delete_post(post_id)
     return render_template('sightings.html')
- 
-
-
 
 
 @app.post('/edit_comment/<int:post_id>/<int:comment_id>')
