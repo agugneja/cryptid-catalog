@@ -17,3 +17,7 @@ def test_create_account(test_app: FlaskClient):
 
 # def test_login_account():
     # pass
+
+
+def test_session_profile(test_app: FlaskClient):
+    pass
