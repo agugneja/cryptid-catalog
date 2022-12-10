@@ -95,6 +95,8 @@ def test_create_comment(test_app: FlaskClient):
 #     db.session.add(test_sighting)
 #     db.session.commit()
 
+
+#This needs to also call edit_post
 #     # Run action
 #     test_app.get(f'/submit_edit/{test_sighting}')
 
@@ -104,8 +106,6 @@ def test_create_comment(test_app: FlaskClient):
 #     assert test_sighting.description == "Saw a creature at Loch Ness that matches the supposed \
 #     description for the Loch Ness Monster."
 
-
-
 def test_delete_post(test_app: FlaskClient):
     pass
 
@@ -114,3 +114,4 @@ def test_edit_comment(test_app: FlaskClient):
 
 def test_delete_comment(test_app: FlaskClient):
     pass
+

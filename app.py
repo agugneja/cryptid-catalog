@@ -25,14 +25,18 @@ db.init_app(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    if 'user'  in session:
+    if 'user' in session:
         return render_template('home.html')
     return render_template('login.html')
 
-@app.get('/profile/<int:user_id>')
-def profile(user_id):
-    displayed_user = person_repository_singleton.get_person_by_id(user_id)
-    return render_template('profile.html', user_id = displayed_user)
+@app.get('/profile')
+def profile():
+    if 'user' in session:
+        user_id = session['user']['user_id']
+        displayed_user = person_repository_singleton.get_person_by_id(user_id)
+        return render_template('profile.html', user_id = displayed_user)
+    return redirect('/login')
+
 
 @app.get('/encyclopedia')
 def encyclopedia():
