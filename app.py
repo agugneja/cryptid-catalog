@@ -234,7 +234,8 @@ def post_creator():
 @app.get('/posts_to_single_post')
 def post_to_post():
     post_id = request.form.get('post_id')
-    return redirect('/posts/'+ str(post_id))
+    post = post_repository_singleton.get_post_by_id(post_id)
+    return redirect('/single_post_page.html', post=post)
 
 @app.post('/edit_post/<int:post_id>')
 def edit_post(post_id):
