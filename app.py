@@ -4,6 +4,7 @@ from src.models import db
 from src.repositories.comment_repository import comment_repository_singleton
 from src.repositories.person_repository import person_repository_singleton
 from src.repositories.post_repository import post_repository_singleton
+from src.repositories.comment_likes_repository import commentlike_repository_singleton
 import os
 from werkzeug.utils import secure_filename
 from datetime import datetime
@@ -22,6 +23,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = os.getenv('APP_SECRET_KEY')
 db.init_app(app)
+
+monster_list = ['ABOMINABLE SNOWMAN', 'BIGFOOT', 'CHUPACABRA', 'COOKIE MONSTER', 'LIZARD MAN OF SCAPE ORE SWAMP', 'LOCH NESS MONSTER', 'LOCHNESS MONSTER', 'MAMLAMBO', 'MEGALODON', 'MOTHMAN', 'NINGEN']
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -45,7 +48,7 @@ def encyclopedia():
 @app.get('/sightings')
 def sightings():
     post_pool = post_repository_singleton.get_all_posts()
-    return render_template('sightings.html', posts=post_pool)
+    return render_template('sightings.html', posts=post_pool, monster_list = monster_list)
 
 
 @app.get('/register')
@@ -140,8 +143,7 @@ def create_post():
         print("incorrect form")
         abort(400)
 
-    created_post = post_repository_singleton.create_post(title, creature, user_id, place, \
-        description, safe_filename, likes, dislikes)
+    created_post = post_repository_singleton.create_post(title, creature, user_id, place, description, safe_filename, likes, dislikes)
 
     return redirect('/posts/' + str(created_post.post_id))
 
@@ -183,8 +185,12 @@ def like_comment(post_id, comment_id):
 
 @app.post('/dislike/<int:post_id>/<int:comment_id>')
 def dislike_comment(post_id, comment_id):
-    comment_repository_singleton.add_comment_dislike(comment_id)
-    return redirect('/posts/' + str(post_id))
+    if 'user' not in session:
+        return redirect('/login')
+    user_id = session['user']['user_id']
+    comment_repository_singleton.add_comment_dislike(comment_id, user_id)
+    return redirect('/posts/'+ str(post_id))
+
 
 #function to get from encyclopedia entry to sightings post
 @app.post('/entry_to_post')

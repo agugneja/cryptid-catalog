@@ -25,11 +25,11 @@ class PostRepository:
         
 
     #add photo later
-    def create_post(self, title, creature, dt, user_id, place, description, picture, likes, dislikes):
-        post = Post(title, creature, dt, user_id, place, description, picture, likes, dislikes)
-        db.session.add(post)
-        db.session.commit()
-        return post
+   # def create_post(self, title, creature, dt, user_id, place, description, picture, likes, dislikes):
+    #    post = Post(title, creature, dt, user_id, place, description, picture, likes, dislikes)
+     #   db.session.add(post)
+      #  db.session.commit()
+       # return post
 
     def create_post(self, title, creature, user_id, place, description, picture, likes, dislikes):
         post = Post(title, creature, user_id, place, description, picture, likes, dislikes)
