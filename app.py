@@ -38,6 +38,46 @@ def profile(user_id):
 def encyclopedia():
     return render_template('encyclopedia.html')
 
+@app.route('/abominableSnowman')
+def abominableSnowman():
+    return render_template('/entries/abominableSnowman.html')
+
+@app.route('/bigfoot')
+def bigfoot():
+    return render_template('/entries/bigfoot.html')
+
+@app.route('/chupacabra')
+def chupacabra():
+    return render_template('/entries/chupacabra.html')
+
+@app.route('/cookieMonster')
+def cookieMonster():
+    return render_template('/entries/cookieMonster.html')
+
+@app.route('/lizardMan')
+def lizardMan():
+    return render_template('/entries/lizardMan.html')
+
+@app.route('/lochNess')
+def lochNess():
+    return render_template('/entries/lochNess.html')
+
+@app.route('/mamlambo')
+def mamlambo():
+    return render_template('/entries/mamlambo.html')
+
+@app.route('/megalodon')
+def megalodon():
+    return render_template('/entries/megalodon.html')
+
+@app.route('/mothman')
+def mothman():
+    return render_template('/entries/mothman.html')
+
+@app.route('/ningen')
+def ningen():
+    return render_template('/entries/ningen.html')
+
 @app.get('/sightings')
 def sightings():
     post_pool = post_repository_singleton.get_all_posts()
