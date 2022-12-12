@@ -25,18 +25,14 @@ db.init_app(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    if 'user' in session:
+    if 'user'  in session:
         return render_template('home.html')
     return render_template('login.html')
 
-@app.get('/profile')
-def profile():
-    if 'user' in session:
-        user_id = session['user']['user_id']
-        displayed_user = person_repository_singleton.get_person_by_id(user_id)
-        return render_template('profile.html', user_id = displayed_user)
-    return redirect('/login')
-
+@app.get('/profile/<int:user_id>')
+def profile(user_id):
+    displayed_user = person_repository_singleton.get_person_by_id(user_id)
+    return render_template('profile.html', user_id = displayed_user)
 
 @app.get('/encyclopedia')
 def encyclopedia():
@@ -274,8 +270,7 @@ def post_creator():
 @app.get('/posts_to_single_post')
 def post_to_post():
     post_id = request.form.get('post_id')
-    post = post_repository_singleton.get_post_by_id(post_id)
-    return redirect('/single_post_page.html', post=post)
+    return redirect('/posts/'+ str(post_id))
 
 @app.post('/edit_post/<int:post_id>')
 def edit_post(post_id):
