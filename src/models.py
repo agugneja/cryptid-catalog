@@ -66,9 +66,9 @@ class Comment(db.Model):
     def __repr__(self) -> str:
         return f'Comment(comment_id={self.comment_id}, text={self.text}, user_id={self.user_id}, time_stamp={self.time_stamp}, likes={self.likes}, dislikes={self.dislikes})'
 
-class CommentLikes(db.Model):
-    comment_id = db.Column(db.Integer, db.ForeignKey('Comment.comment_id'), primary_key=True,  nullable= False)
-    user_id = db.Column(db.Integer, db.ForeignKey('person.user_id'), nullable = False)
+class commentlikes(db.Model):
+    comment_id = db.Column(db.Integer, primary_key=True,  nullable= False)
+    user_id = db.Column(db.Integer, nullable = False)
    
 
     def __init__(self, comment_id:int, user_id:str):
@@ -77,3 +77,42 @@ class CommentLikes(db.Model):
 
     def __repr__(self) -> str:
         return f'CommentLikes(comment_id={self.comment_id}, user_id={self.user_id})'
+
+
+class commentdislikes(db.Model):
+    comment_id = db.Column(db.Integer, primary_key=True,  nullable= False)
+    user_id = db.Column(db.Integer, nullable = False)
+   
+
+    def __init__(self, comment_id:int, user_id:str):
+        self.comment_id = comment_id
+        self.user_id = user_id
+
+    def __repr__(self) -> str:
+        return f'CommentLikes(comment_id={self.comment_id}, user_id={self.user_id})'
+
+
+class postlikes(db.Model):
+    post_id = db.Column(db.Integer, primary_key=True,  nullable= False)
+    user_id = db.Column(db.Integer, nullable = False)
+   
+
+    def __init__(self, post_id:int, user_id:str):
+        self.post_id = post_id
+        self.user_id = user_id
+
+    def __repr__(self) -> str:
+        return f'PostLikes(post_id={self.post_id}, user_id={self.user_id})'
+
+
+class postdislikes(db.Model):
+    post_id = db.Column(db.Integer, primary_key=True,  nullable= False)
+    user_id = db.Column(db.Integer, nullable = False)
+   
+
+    def __init__(self, post_id:int, user_id:str):
+        self.post_id = post_id
+        self.user_id = user_id
+
+    def __repr__(self) -> str:
+        return f'Postdislikes(comment_id={self.post_id}, user_id={self.user_id})'

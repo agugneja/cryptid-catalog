@@ -1,4 +1,6 @@
-from src.models import Post, db
+from src.models import Post, db, postdislikes, postlikes
+
+from src.repositories.post_likes_repository import postlike_repository_singleton
 from src.repositories.comment_repository import comment_repository_singleton
 
 
@@ -24,13 +26,14 @@ class PostRepository:
         return Post.query.filter_by(user_id=_user_id).filter_by(creature=_creature)
         
 
-    #add photo later
+
     def create_post(self, title, creature, dt, user_id, place, description, picture, likes, dislikes):
         post = Post(title, creature, dt, user_id, place, description, picture, likes, dislikes)
         db.session.add(post)
         db.session.commit()
         return post
 
+    #if dt does not exist
     def create_post(self, title, creature, user_id, place, description, picture, likes, dislikes):
         post = Post(title, creature, user_id, place, description, picture, likes, dislikes)
         db.session.add(post)
@@ -50,6 +53,47 @@ class PostRepository:
         for comment in comments_to_delete:
             db.session.delete(comment)
         db.session.delete(post_to_delete)
+        db.session.commit()
+        return None
+
+
+    def add_post_like(self, post_id, user_id):
+        post =  Post.query.get(post_id)
+        if postlike_repository_singleton.has_disliked_post(post_id, user_id):
+            postdislikes.query.filter_by(post_id=post_id).delete()
+            post.dislikes = post.dislikes - 1
+            new_like = postlikes(post_id, user_id)
+            db.session.add(new_like)
+            post.likes = post.likes + 1
+
+        elif postlike_repository_singleton.has_liked_post(post_id, user_id):
+
+            postlikes.query.filter_by(post_id=post_id).delete()
+            post.likes = post.likes - 1
+        else:
+            new_like = postlikes(post_id, user_id)
+            db.session.add(new_like)
+            post.likes = post.likes + 1
+        db.session.commit()
+
+        return None
+
+    def add_post_dislike(self, post_id, user_id):
+        post =  Post.query.get(post_id)
+        if postlike_repository_singleton.has_liked_post(post_id, user_id):
+            postlikes.query.filter_by(post_id=post_id).delete()
+            post.likes = post.likes - 1
+            new_dislike = postdislikes(post_id, user_id)
+            db.session.add(new_dislike)
+            post.dislikes = post.dislikes + 1
+
+        elif postlike_repository_singleton.has_disliked_post(post_id, user_id):
+            postdislikes.query.filter_by(post_id=post_id).delete()
+            post.dislikes = post.dislikes - 1
+        else:
+            new_dislike = postdislikes(post_id, user_id)
+            db.session.add(new_dislike)
+            post.dislikes = post.dislikes + 1
         db.session.commit()
         return None
 

@@ -3,5 +3,27 @@
 {% block title %}Cryptid Catalog | User Profile{% endblock %}
     
 {% block body %}
-    <h3>Signed in as {{user_id.username}}</h3>
+    <h1>Hello {{user_id.username}}</h1>
+
+    <h3>Your Posts</h3>
+    {% for post in user_posts %}
+    <div class="post">
+        <form action="/posts_to_single_post">
+            <button type="submit" class="btn btn-link post-title-btn">
+                {{ post.title }}
+            </button>
+            <input type="hidden" name="post_id" id="post_id" value={{post.post_id}}>
+        </form>
+        <div class="centered">
+            <img src="\static\forum_post_pictures\{{post.photo_path}}" style="width: 15em; height: auto;">
+        </div>
+        <form action="/post_to_entry">
+            <button type="submit" class="btn btn-link creature-btn">
+                {{ post.creature }}
+            </button>
+            <input type="hidden" name="creature" id="creature" value={{post.creature}}>
+        </form>
+        <p class="mx-5 px-5">{{ post.description }}</p>
+    </div>
+{% endfor %}
 {% endblock %}

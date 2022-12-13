@@ -52,24 +52,23 @@
 {% for post in posts %}
     <div class="post">
         <!-- form is for going from all posts to the single post page-->
-        <form action="/posts_to_single_post">
-            <button type="submit" class="btn btn-link post-title-btn">
-                {{ post.title }}
-            </button>
-            <input type="hidden" name="post_id" id="post_id" value={{post.post_id}}>
-        </form>
-        <h3>By {{ posts.user_id }}</h3>
-        <p>This is where the picture will go</p>
+        <h1><a href="/posts/{{ post.post_id }}">{{ post.title }}</a></h1>
+        <h3>By {{ post.user_id }}</h3>
         <div class="centered">
             <img src="\static\forum_post_pictures\{{post.photo_path}}" style="width: 15em; height: auto;">
         </div>
         <!-- form is for going from all posts to encyclopedia entry accosiated creature-->
-        <form action="/post_to_entry">
-            <button type="submit" class="btn btn-link creature-btn">
-                {{ post.creature }}
-            </button>
-            <input type="hidden" name="creature" id="creature" value={{post.creature}}>
-        </form>
+        {% if post.creature|upper in monster_list %}
+            <form action="/post_to_entry">
+                <button type="submit" class="btn btn-link creature-btn">
+                    <p>Creature: {{ post.creature }}</p>
+                </button>
+                <input type="hidden" name="creature" id="creature" value={{post.creature}}>
+            </form>
+        {% endif %}
+        {% if post.creature|upper not in monster_list %}
+            <p>Creature: {{ post.creature }}</p>
+        {% endif %}
         <p class="mx-5 px-5">{{ post.description }}</p>
     </div>
 {% endfor %}

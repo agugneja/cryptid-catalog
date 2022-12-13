@@ -4,6 +4,9 @@ from src.models import db
 from src.repositories.comment_repository import comment_repository_singleton
 from src.repositories.person_repository import person_repository_singleton
 from src.repositories.post_repository import post_repository_singleton
+from src.repositories.comment_likes_repository import commentlike_repository_singleton
+from src.repositories.post_likes_repository import postlike_repository_singleton
+
 import os
 from werkzeug.utils import secure_filename
 from datetime import datetime
@@ -23,16 +26,23 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = os.getenv('APP_SECRET_KEY')
 db.init_app(app)
 
+monster_list = ['ABOMINABLE SNOWMAN', 'BIGFOOT', 'CHUPACABRA', 'COOKIE MONSTER', 'LIZARD MAN OF SCAPE ORE SWAMP', 'LOCH NESS MONSTER', 'LOCHNESS MONSTER', 'MAMLAMBO', 'MEGALODON', 'MOTHMAN', 'NINGEN']
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if 'user'  in session:
         return render_template('home.html')
     return render_template('login.html')
 
-@app.get('/profile/<int:user_id>')
-def profile(user_id):
-    displayed_user = person_repository_singleton.get_person_by_id(user_id)
-    return render_template('profile.html', user_id = displayed_user)
+@app.get('/profile')
+def profile():
+    if 'user' in session:
+        session_user_id = session['user']['user_id']
+        displayed_user = person_repository_singleton.get_person_by_id(session_user_id)
+        user_posts = post_repository_singleton.get_posts_by_user_id(session_user_id)
+    else:
+        return render_template('login.html')
+    return render_template('profile.html', user_id = displayed_user, user_posts = user_posts)
 
 @app.get('/encyclopedia')
 def encyclopedia():
@@ -81,7 +91,7 @@ def ningen():
 @app.get('/sightings')
 def sightings():
     post_pool = post_repository_singleton.get_all_posts()
-    return render_template('sightings.html', posts=post_pool)
+    return render_template('sightings.html', posts=post_pool, monster_list = monster_list)
 
 
 @app.get('/register')
@@ -176,8 +186,7 @@ def create_post():
         print("incorrect form")
         abort(400)
 
-    created_post = post_repository_singleton.create_post(title, creature, user_id, place, \
-        description, safe_filename, likes, dislikes)
+    created_post = post_repository_singleton.create_post(title, creature, user_id, place, description, safe_filename, likes, dislikes)
 
     return redirect('/posts/' + str(created_post.post_id))
 
@@ -196,6 +205,24 @@ def get_single_post(post_id):
         session_user_id = -1
 
     return render_template('single_post_page.html', post = single_post, comments = all_comments, user = user, session_user_id = session_user_id)
+
+
+@app.post('/like/<int:post_id>')
+def like_post(post_id):
+    if 'user' not in session:
+        return redirect('/login')
+    user_id = session['user']['user_id']
+    post_repository_singleton.add_post_like(post_id, user_id)
+    return redirect('/posts/'+ str(post_id))
+
+@app.post('/dislike/<int:post_id>')
+def dislike_post(post_id):
+    if 'user' not in session:
+        return redirect('/login')
+    user_id = session['user']['user_id']
+    post_repository_singleton.add_post_dislike(post_id, user_id)
+    return redirect('/posts/'+ str(post_id))
+
 
 @app.post('/comment/<int:post_id>')
 def make_commment(post_id):
@@ -219,8 +246,12 @@ def like_comment(post_id, comment_id):
 
 @app.post('/dislike/<int:post_id>/<int:comment_id>')
 def dislike_comment(post_id, comment_id):
-    comment_repository_singleton.add_comment_dislike(comment_id)
-    return redirect('/posts/' + str(post_id))
+    if 'user' not in session:
+        return redirect('/login')
+    user_id = session['user']['user_id']
+    comment_repository_singleton.add_comment_dislike(comment_id, user_id)
+    return redirect('/posts/'+ str(post_id))
+
 
 #function to get from encyclopedia entry to sightings post
 @app.post('/entry_to_post')
