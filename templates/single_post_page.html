@@ -17,6 +17,27 @@
         <img src="\static\forum_post_pictures\{{post.photo_path}}" style="width: 35em; height: auto;">
       </div>
     <p class="mx-5 px-5">{{ post.description }}</p>
+    
+    <div class="div m-3">
+        <form action="/like/{{ post.post_id }}" method="post">
+            <button type="submit" class="btn btn-success">&#8205; &#8205; &#8205; LIKE &#8205; &#8205; &#8205; </button> &#8205 {{ post.likes }}
+        </form> 
+            <br>
+        <form action="/dislike/{{ post.post_id }}" method="post">
+            <button type="submit" class="btn btn-danger ">DISLIKE</button> &#8205  {{ post.dislikes }}
+        </form> 
+           
+    </div>
+
+    {% if session_user_id == user.user_id %}
+    <form class="centered mt-3" action="/edit_post/{{ post.post_id }}" method="post">
+        <button type="submit" class="btn btn-secondary" style="display: inline;">EDIT POST</button>
+    </form>
+    <form class="centered" action="/delete_post/{{ post.post_id }}" method="post">
+        <button type="submit" class="btn btn-secondary mt-1">DELETE POST</button>
+    </form> 
+    {% endif %}
+
     <form action="/comment/{{post.post_id}}" id="algin-form" method="post">
         <div class="form-group mt-5">
             <label for="message">Leave a comment</label>
@@ -26,14 +47,6 @@
             <button type="submit" class="btn btn-success">COMMENT</button>
         </div>
     </form>
-  {% if session_user_id == user.user_id %}
-  <form class="centered mt-3" action="/edit_post/{{ post.post_id }}" method="post">
-      <button type="submit" class="btn btn-secondary" style="display: inline;">EDIT POST</button>
-  </form>
-  <form class="centered" action="/delete_post/{{ post.post_id }}" method="post">
-      <button type="submit" class="btn btn-secondary mt-1">DELETE POST</button>
-  </form> 
-  {% endif %}
 
 
 {% for comment in comments %}

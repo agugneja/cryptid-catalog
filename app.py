@@ -5,6 +5,8 @@ from src.repositories.comment_repository import comment_repository_singleton
 from src.repositories.person_repository import person_repository_singleton
 from src.repositories.post_repository import post_repository_singleton
 from src.repositories.comment_likes_repository import commentlike_repository_singleton
+from src.repositories.post_likes_repository import postlike_repository_singleton
+
 import os
 from werkzeug.utils import secure_filename
 from datetime import datetime
@@ -162,6 +164,24 @@ def get_single_post(post_id):
         session_user_id = -1
 
     return render_template('single_post_page.html', post = single_post, comments = all_comments, user = user, session_user_id = session_user_id)
+
+
+@app.post('/like/<int:post_id>')
+def like_post(post_id):
+    if 'user' not in session:
+        return redirect('/login')
+    user_id = session['user']['user_id']
+    post_repository_singleton.add_post_like(post_id, user_id)
+    return redirect('/posts/'+ str(post_id))
+
+@app.post('/dislike/<int:post_id>')
+def dislike_post(post_id):
+    if 'user' not in session:
+        return redirect('/login')
+    user_id = session['user']['user_id']
+    post_repository_singleton.add_post_dislike(post_id, user_id)
+    return redirect('/posts/'+ str(post_id))
+
 
 @app.post('/comment/<int:post_id>')
 def make_commment(post_id):
