@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS Comment (
 	FOREIGN KEY (user_id) REFERENCES Person(user_id)
 );
 
-CREATE TABLE IF NOT EXISTS CommentLike (
+CREATE TABLE IF NOT EXISTS CommentLikes (
 	comment_id SERIAL,
 	user_id SERIAL,
 	PRIMARY KEY(comment_id),
@@ -42,11 +42,27 @@ CREATE TABLE IF NOT EXISTS CommentLike (
 	FOREIGN KEY (user_id) REFERENCES Person(user_id)
 );
 
-CREATE TABLE IF NOT EXISTS CommentDislike (
+CREATE TABLE IF NOT EXISTS CommentDislikes (
 	comment_id SERIAL,
 	user_id SERIAL,
 	PRIMARY KEY(comment_id),
 	FOREIGN KEY (comment_id) REFERENCES Comment(comment_id),
+	FOREIGN KEY (user_id) REFERENCES Person(user_id)
+);
+
+CREATE TABLE IF NOT EXISTS PostLikes (
+	post_id SERIAL,
+	user_id SERIAL,
+	PRIMARY KEY(post_id),
+	FOREIGN KEY (post_id) REFERENCES Post(post_id),
+	FOREIGN KEY (user_id) REFERENCES Person(user_id)
+);
+
+CREATE TABLE IF NOT EXISTS PostDislikes (
+	post_id SERIAL,
+	user_id SERIAL,
+	PRIMARY KEY(post_id),
+	FOREIGN KEY (post_id) REFERENCES Post(psot_id),
 	FOREIGN KEY (user_id) REFERENCES Person(user_id)
 );
 
