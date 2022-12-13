@@ -32,10 +32,15 @@ def index():
         return render_template('home.html')
     return render_template('login.html')
 
-@app.get('/profile/<int:user_id>')
-def profile(user_id):
-    displayed_user = person_repository_singleton.get_person_by_id(user_id)
-    return render_template('profile.html', user_id = displayed_user)
+@app.get('/profile')
+def profile():
+    if 'user' in session:
+        session_user_id = session['user']['user_id']
+        displayed_user = person_repository_singleton.get_person_by_id(session_user_id)
+        user_posts = post_repository_singleton.get_posts_by_user_id(session_user_id)
+    else:
+        return render_template('login.html')
+    return render_template('profile.html', user_id = displayed_user, user_posts = user_posts)
 
 @app.get('/encyclopedia')
 def encyclopedia():
