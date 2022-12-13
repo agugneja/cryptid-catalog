@@ -24,6 +24,7 @@ class PostRepository:
         return Post.query.filter_by(user_id=_user_id).filter_by(creature=_creature)
         
 
+
     def create_post(self, title, creature, dt, user_id, place, description, picture, likes, dislikes):
         post = Post(title, creature, dt, user_id, place, description, picture, likes, dislikes)
         db.session.add(post)
