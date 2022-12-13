@@ -65,6 +65,3 @@ CREATE TABLE IF NOT EXISTS PostDislikes (
 	FOREIGN KEY (post_id) REFERENCES Post(psot_id),
 	FOREIGN KEY (user_id) REFERENCES Person(user_id)
 );
-
-INSERT INTO person (username, password, email)
-VALUES ('jdoe','abc123', 'jdoe@gmail.com');
