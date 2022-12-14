@@ -62,6 +62,6 @@ CREATE TABLE IF NOT EXISTS PostDislikes (
 	post_id SERIAL,
 	user_id SERIAL,
 	PRIMARY KEY(post_id),
-	FOREIGN KEY (post_id) REFERENCES Post(psot_id),
+	FOREIGN KEY (post_id) REFERENCES Post(post_id),
 	FOREIGN KEY (user_id) REFERENCES Person(user_id)
 );
