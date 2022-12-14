@@ -123,49 +123,6 @@
     /*
         End of comment css
     */
-
-
-    /*
-        Start of CSS for an accordion element, used with sightings post filter
-    */
-    .accodion_input {
-    display: none;
-    }
-
-    .accordion_title {
-        display: block;    
-        padding: 8px 22px;
-        margin: 0 0 1px 0;
-        cursor: pointer;
-        background: #6AAB95;
-        border-radius: 3px;
-        color: #FFF;
-        transition: ease .5s;
-    }
-
-    .accodion_title:hover {
-        background: #4E8774;
-    }
-
-    .accordion_content {
-        background: #E2E5F6;
-        padding: 10px 25px;
-        border: 1px solid #A7A7A7;
-        margin: 0 0 1px 0;
-        border-radius: 3px;
-    }
-
-    .accordion_input + .accordion_title + .accordion_content {
-        display: none;
-    }
-
-    .accordion_input:checked + .accordion_title + .accordion_content {
-        display: block;
-    }
-
-    /*
-        end of accordion css
-    */
 </style>
 <body>
 
@@ -183,7 +140,7 @@
             </ul>
         </div>
         
-          <img src="\static\lochness.png" style="width: 2%; height: auto;">
+        <img src="\static\lochness.png" style="width: 2%; height: auto;">
         <a class="navbar-brand" href="/" style="margin-left: 5px; font-size: 30px; color: #00264d; font-family: baskerville, serif;"><b>Cryptid Catalog</b></a>
 
         <form class="form-inline my-2 my-lg-0" style="margin-right: auto; margin-left: auto;">
@@ -197,18 +154,15 @@
         <div style="margin-left: auto; margin-right: 5px;">
             <div>
                 <div class="nav-item" style="float:left">
-
                     <a class="nav-link" href="/sightings"><span style="font-size: 30px; color: #00264d" class="glyphicon glyphicon-plus"></span></a>
-
-                        
                 </div>
                 <div class="nav-item" style="float:right">
                     <a class="nav-link" href="/profile"><span style="font-size: 30px; color: #00264d" class="glyphicon glyphicon-user"></span></a>
                 </div>
             </div>   
         </div>
-
     </nav>
+    
     {% block body %}
     
     {% endblock %}
