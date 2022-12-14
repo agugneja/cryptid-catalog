@@ -100,7 +100,7 @@ def test_like_comment(test_app: FlaskClient):
     # Run action
     resComment = test_app.post(f'/comment/{test_sighting.post_id}')
     resLike = test_app.post(f'/like/{test_sighting.post_id}/{test_comment.comment_id}')
-    test_app.post('/login')
+    # test_app.post('/login')
     page_data = resLike.data.decode()
 
     assert test_comment.post_id == test_sighting.post_id
