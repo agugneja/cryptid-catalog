@@ -56,7 +56,7 @@
                     <button type="submit" class="btn btn-success">&#8205; &#8205; &#8205; LIKE &#8205; &#8205; &#8205; </button>
                 </form> 
             </td>
-            <td>{{ comment.likes }}</td>
+            <td>like {{ comment.likes }}</td>
             
             <td>
                 <form action="/dislike/{{ post.post_id }}/{{ comment.comment_id }}" method="post">
