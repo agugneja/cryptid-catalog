@@ -125,8 +125,8 @@ def test_edit_post(test_app: FlaskClient):
 
     # Run action
     res = test_app.get(f'/posts/{test_sighting.post_id}')
-    res_submit_edit = test_app.get(f'/submit_edit/{test_sighting.post_id}', data = {"new_title": "Monster Sighted", 
-    "new_creature": "Loch Ness Monster", "new_description": "I saw it with my own eyes" })
+    res_submit_edit = test_app.post(f'/submit_edit/{test_sighting.post_id}', data = {"edit_title": "Monster Sighted", 
+    "edit_creature": "Loch Ness Monster", "edit_description": "I saw it with my own eyes"}, follow_redirects = True)
     post_repository_singleton.get_all_posts()
 
     # Asserts

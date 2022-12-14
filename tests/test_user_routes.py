@@ -11,14 +11,13 @@ def test_create_account(test_app: FlaskClient):
     db.session.add(test_user)
     db.session.commit()
     
-    res = test_app.get(f'/profile')
-    page_data = res.data.decode()
 
-    # Asserts
-    assert test_user.username == "jdoe"
-    assert test_user.password == "password"
-    assert test_user.email == "jdoe@yahoo.com"
-    assert '<h1>Hello jdoe</h1>' in page_data
+    res_create = test_app.get(f'/create_account', data = {"username": test_user.username, "password": test_user.password, "email": test_user.email})
+    res = test_app.get(f'/profile')
+    
+
+    
+    assert b'<h1>Hello jdoe</h1>' in res.data
 
 
 def test_login_account(test_app: FlaskClient):
