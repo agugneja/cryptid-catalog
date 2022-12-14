@@ -27,5 +27,3 @@ def test_login_account(test_app: FlaskClient):
     #Assert
     assert b'<h1>Hello jdoe</h1>' in res_profile.data
 
-def test_session_profile(test_app: FlaskClient):
-    pass
