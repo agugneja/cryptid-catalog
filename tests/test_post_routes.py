@@ -1,6 +1,7 @@
 from flask.testing import FlaskClient
-from src.models import Post, Person, Comment, db
+from src.models import Post, Person, Comment, commentlikes, commentdislikes, db
 from src.repositories.post_repository import post_repository_singleton
+from src.repositories.comment_repository import comment_repository_singleton
 from tests.utils import refresh_db
 from datetime import datetime
 
@@ -59,14 +60,18 @@ def test_create_comment(test_app: FlaskClient):
     db.session.add(test_comment)
     db.session.commit()
 
+    test_liked = comment_repository_singleton.add_comment_like(test_comment.comment_id, test_user.user_id)
+    db.session.add(test_liked)
+    db.session.commit()
+
     # Run action
     res = test_app.post(f'/comment/{test_sighting.post_id}')
-
+    res = test_app.post(f'/like/{test_sighting.post_id}/{test_comment.comment_id}')
 
     assert test_comment.post_id == test_sighting.post_id
     assert test_comment.text == "Elaborate. Please."
     assert test_comment.user_id == test_commenter.user_id
-    assert test_comment.likes == 0
+    assert test_comment.likes == 1
     assert test_comment.dislikes == 0
 
 # def test_like_comment(test_app: FlaskClient):
@@ -112,6 +117,6 @@ def test_delete_post(test_app: FlaskClient):
 def test_edit_comment(test_app: FlaskClient):
     pass
 
-def test_delete_comment(test_app: FlaskClient):
-    pass
+#def test_delete_comment(test_app: FlaskClient):
+#    pass
 
