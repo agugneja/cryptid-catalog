@@ -263,7 +263,7 @@ def entry_to_post(creature):
 @app.post('/post_to_entry')
 def post_to_entry():
     entry_page= request.form.get('creature')
-    return redirect('entries/' + str(entry_page) + '.html')
+    return render_template('entries/' + str(entry_page) + '.html')
 
 #filters all posts by creature, username, or both, or neither
 @app.post('/filter_posts')
