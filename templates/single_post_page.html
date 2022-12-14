@@ -51,7 +51,7 @@
 
 {% for comment in comments %}
 <div class="comment mt-4 text-justify float-left">
-    <h4>{{ comment.user_id }}</h4>
+    <h4>Posted by user #{{ comment.user_id }}</h4>
     <p>{{ comment.text }}</p>
     <table>
         <tr>
