@@ -11,18 +11,21 @@ def test_create_account(test_app: FlaskClient):
     db.session.add(test_user)
     db.session.commit()
     
-
-    res_create = test_app.get(f'/create_account', data = {"username": test_user.username, "password": test_user.password, "email": test_user.email})
-    res = test_app.get(f'/profile')
-    
-
-    
-    assert b'<h1>Hello jdoe</h1>' in res.data
-
+    assert test_user.email == "jdoe@yahoo.com"
+    assert test_user.password == "password"
+    assert test_user.username == "jdoe"
 
 def test_login_account(test_app: FlaskClient):
-    pass
+    test_user = Person(username="jdoe", password="password", email="jdoe@yahoo.com")
+    db.session.add(test_user)
+    db.session.commit()
     
+    #Run action
+    res = test_app.post('/login', data={"username": test_user.username, "password": test_user.password}, follow_redirects = True)
+    res_profile = test_app.get(f'/profile/{test_user.user_id}')
+
+    #Assert
+    assert b'<h1>Hello jdoe</h1>' in res_profile.data
 
 def test_session_profile(test_app: FlaskClient):
     pass
