@@ -44,7 +44,7 @@
     <div class="post">
         <!-- form is for going from all posts to the single post page-->
         <h1><a href="/posts/{{ post.post_id }}">{{ post.title }}</a></h1>
-        <h3>By {{ post.username }}</h3>
+        <h3>By {{ post.user_id.username }}</h3>
         <div class="centered">
             <img src="\static\forum_post_pictures\{{post.photo_path}}" style="width: 15em; height: auto;">
         </div>
@@ -62,6 +62,5 @@
         {% endif %}
         <p class="mx-5 px-5">{{ post.description }}</p>
     </div>
-    <br>
 {% endfor %}
 {% endblock %}
