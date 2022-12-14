@@ -37,7 +37,7 @@
     {% for comment in comments %}
         {% if comment.comment_id == edit_comment.comment_id %}
         <tr>
-            <td>{{ comment.user_id }}</td>
+            <td>Posted by user #{{ comment.user_id }}</td>
             <td>
                 <form action="/submit_edit_comment/{{post.post_id}}/{{edit_comment.comment_id}}" method="post">
                     <input type="new_comment" class="form-control"  name="new_comment" value="{{ edit_comment.text }}" ><br>
@@ -56,7 +56,7 @@
     {% for comment in comments %}
         {% if comment.comment_id != edit_comment.comment_id %}
         <tr>
-            <td>{{ comment.user_id }}</td>
+            <td>Posted by user #{{ comment.user_id }}</td>
             <td>{{ comment.text }}</td>
             <td>{{ comment.likes }}</td>
             <td>

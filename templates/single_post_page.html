@@ -4,30 +4,26 @@
 
 {% block body %}
 <div class="post">
-    <h1>{{ post.title }}</h1><h3>By {{ user.username }}</h3>
-    <h3>{{ post.creature }}</h3>
-    <!-- form is for going from all posts to encyclopedia entry accosiated creature-->
-    <form action="/post_to_entry" method="post">
-        <button type="submit" class="btn btn-link creature-btn">
-            {{ post.creature }}
-        </button>
-        <input type="hidden" name="creature" id="creature" value={{post.creature}}>
-    </form>
+    <!-- form is for going from all posts to the single post page-->
+    <h1><a href="/posts/{{ post.post_id }}">{{ post.title }}</a></h1>
+    <h3>Posted by user #{{ post.user_id }}</h3>
     <div class="centered">
-        <img src="\static\forum_post_pictures\{{post.photo_path}}" style="width: 35em; height: auto;">
-      </div>
-    <p class="mx-5 px-5">{{ post.description }}</p>
-    
-    <div class="div m-3">
-        <form action="/like/{{ post.post_id }}" method="post">
-            <button type="submit" class="btn btn-success">&#8205; &#8205; &#8205; LIKE &#8205; &#8205; &#8205; </button> &#8205 {{ post.likes }}
-        </form> 
-            <br>
-        <form action="/dislike/{{ post.post_id }}" method="post">
-            <button type="submit" class="btn btn-danger ">DISLIKE</button> &#8205  {{ post.dislikes }}
-        </form> 
-           
+        <img class="centered" src="\static\forum_post_pictures\{{post.photo_path}}" style="width: 15em; height: auto; position:relative;">
     </div>
+    <!-- form is for going from all posts to encyclopedia entry accosiated creature-->
+    {% if post.creature|upper in monster_list %}
+        <form action="/post_to_entry">
+            <button type="submit" class="btn btn-link creature-btn">
+                <p>Creature: {{ post.creature }}</p>
+            </button>
+            <input type="hidden" name="creature" id="creature" value={{post.creature}}>
+        </form>
+    {% endif %}
+    {% if post.creature|upper not in monster_list %}
+        <p>Creature: {{ post.creature }}</p>
+    {% endif %}
+    <p class="mx-5 px-5">{{ post.description }}</p>
+</div>
 
     {% if session_user_id == user.user_id %}
     <form class="centered mt-3" action="/edit_post/{{ post.post_id }}" method="post">
@@ -51,7 +47,7 @@
 
 {% for comment in comments %}
 <div class="comment mt-4 text-justify float-left">
-    <h4>{{ comment.user_id }}</h4>
+    <h4>Posted by user #{{ comment.user_id }}</h4>
     <p>{{ comment.text }}</p>
     <table>
         <tr>

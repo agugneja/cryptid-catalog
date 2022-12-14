@@ -233,7 +233,7 @@ def entry_to_post(creature):
 def post_to_entry():
     entry_page= request.form.get('creature')
     return render_template('entries/' + str(entry_page) + '.html')
-    
+
 #filters all posts by creature, username, or both, or neither
 @app.post('/filter_posts')
 def filter_posts(creature, username):
