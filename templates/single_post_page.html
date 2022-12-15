@@ -23,6 +23,16 @@
         <p>Creature: {{ post.creature }}</p>
     {% endif %}
     <p class="mx-5 px-5">{{ post.description }}</p>
+    <div class="div m-3">
+        <form action="/like/{{ post.post_id }}" method="post">
+            <button type="submit" class="btn btn-success">&#8205; &#8205; &#8205; LIKE &#8205; &#8205; &#8205; </button> &#8205 {{ post.likes }}
+        </form> 
+            <br>
+        <form action="/dislike/{{ post.post_id }}" method="post">
+            <button type="submit" class="btn btn-danger ">DISLIKE</button> &#8205  {{ post.dislikes }}
+        </form> 
+    
+    </div>
 </div>
 
     {% if session_user_id == user.user_id %}

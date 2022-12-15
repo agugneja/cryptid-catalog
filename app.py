@@ -197,6 +197,22 @@ def get_single_post(post_id):
 
     return render_template('single_post_page.html', post = single_post, comments = all_comments, user = user, session_user_id = session_user_id)
 
+@app.post('/like/<int:post_id>')
+def like_post(post_id):
+    if 'user' not in session:
+        return redirect('/login')
+    user_id = session['user']['user_id']
+    post_repository_singleton.add_post_like(post_id, user_id)
+    return redirect('/posts/'+ str(post_id))
+
+@app.post('/dislike/<int:post_id>')
+def dislike_post(post_id):
+    if 'user' not in session:
+        return redirect('/login')
+    user_id = session['user']['user_id']
+    post_repository_singleton.add_post_dislike(post_id, user_id)
+    return redirect('/posts/'+ str(post_id))
+
 @app.post('/comment/<int:post_id>')
 def make_commment(post_id):
     if 'user' not in session:
