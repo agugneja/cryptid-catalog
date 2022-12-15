@@ -235,8 +235,11 @@ def like_comment(post_id, comment_id):
 
 @app.post('/dislike/<int:post_id>/<int:comment_id>')
 def dislike_comment(post_id, comment_id):
-    comment_repository_singleton.add_comment_dislike(comment_id)
-    return redirect('/posts/' + str(post_id))
+    if 'user' not in session:
+        return redirect('/login')
+    user_id = session['user']['user_id']
+    comment_repository_singleton.add_comment_dislike(comment_id, user_id)
+    return redirect('/posts/'+ str(post_id))
 
 #function to get from encyclopedia entry to sightings post
 @app.post('/entry_to_post')
