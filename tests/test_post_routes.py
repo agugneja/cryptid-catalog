@@ -36,6 +36,68 @@ def test_create_post(test_app: FlaskClient):
     assert test_sighting.likes == 3
     assert test_sighting.dislikes == 12
 
+def test_like_post(test_app: FlaskClient):
+    refresh_db()
+    test_user = Person(username="jdoe", password="password", email="jdoe@yahoo.com")
+    db.session.add(test_user)
+    db.session.commit()
+    test_sighting = Post(title='Monster Sighted', creature='Loch Ness Monster', 
+    user_id=test_user.user_id, place='Loch Ness', description='Saw the Loch Ness monster. Maybe.', 
+    photo_path='static/forum_post_pictures/placeholder.png', likes='3', dislikes='12')
+
+    db.session.add(test_sighting)
+    db.session.commit()
+
+    # Run action
+    post_repository_singleton.add_post_like(test_sighting.post_id, test_user.user_id)
+    res = test_app.get(f'/posts/{test_sighting.post_id}')
+
+    # Asserts
+    assert test_user.username == "jdoe"
+    assert test_user.password == "password"
+    assert test_user.email == "jdoe@yahoo.com"
+
+    assert res.status_code == 200
+    assert test_sighting.title == "Monster Sighted"
+    assert test_sighting.creature == "Loch Ness Monster"
+    assert test_sighting.user_id == test_user.user_id
+    assert test_sighting.place == "Loch Ness"
+    assert test_sighting.description == "Saw the Loch Ness monster. Maybe."
+    assert test_sighting.photo_path == "static/forum_post_pictures/placeholder.png"
+    assert test_sighting.likes == 4
+    assert test_sighting.dislikes == 12
+
+def test_dislike_post(test_app: FlaskClient):
+    refresh_db()
+    test_user = Person(username="jdoe", password="password", email="jdoe@yahoo.com")
+    db.session.add(test_user)
+    db.session.commit()
+    test_sighting = Post(title='Monster Sighted', creature='Loch Ness Monster', 
+    user_id=test_user.user_id, place='Loch Ness', description='Saw the Loch Ness monster. Maybe.', 
+    photo_path='static/forum_post_pictures/placeholder.png', likes='3', dislikes='12')
+
+    db.session.add(test_sighting)
+    db.session.commit()
+
+    # Run action
+    post_repository_singleton.add_post_dislike(test_sighting.post_id, test_user.user_id)
+    res = test_app.get(f'/posts/{test_sighting.post_id}')
+
+    # Asserts
+    assert test_user.username == "jdoe"
+    assert test_user.password == "password"
+    assert test_user.email == "jdoe@yahoo.com"
+
+    assert res.status_code == 200
+    assert test_sighting.title == "Monster Sighted"
+    assert test_sighting.creature == "Loch Ness Monster"
+    assert test_sighting.user_id == test_user.user_id
+    assert test_sighting.place == "Loch Ness"
+    assert test_sighting.description == "Saw the Loch Ness monster. Maybe."
+    assert test_sighting.photo_path == "static/forum_post_pictures/placeholder.png"
+    assert test_sighting.likes == 3
+    assert test_sighting.dislikes == 13
+
 def test_create_comment(test_app: FlaskClient):
     # Setup
     refresh_db()
